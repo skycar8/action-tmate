@@ -40,8 +40,11 @@ export async function run() {
     console.debug("Entering main loop")
     var timeout = 15*60
     while (timeout > 0) {
+
+      core.info(`=============== expried after ${timeout}s ==================`);
       core.info(`WebURL: ${tmateWeb}`);
       core.info(`SSH: ${tmateSSH}`);
+      core.info(await execShellCommand("![ -S /tmp/tmate.sock ]"));
 
       const skip = fs.existsSync("/continue") 
         || fs.existsSync(path.join(process.env.GITHUB_WORKSPACE, "continue"))
