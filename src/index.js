@@ -38,18 +38,20 @@ export async function run() {
     const tmateWeb = await execShellCommand(`tmate -S /tmp/tmate.sock display -p '#{tmate_web}'`);
 
     console.debug("Entering main loop")
-    while (true) {
+    var timeout = 15*60
+    while (timeout > 0) {
       core.info(`WebURL: ${tmateWeb}`);
       core.info(`SSH: ${tmateSSH}`);
 
       const skip = fs.existsSync("/continue") 
         || fs.existsSync(path.join(process.env.GITHUB_WORKSPACE, "continue"))
-        || await execShellCommand("!(-S /tmp/tmate.sock)")
+        || await execShellCommand("![ -S /tmp/tmate.sock ]")
       if (skip) {
         core.info("Existing debugging session because '/continue' file was created")
         break
       }
-      await sleep(5000)
+      await sleep(10000)
+      timeout = timeout - 10
     }
   } catch (error) {
     core.setFailed(error.message);
