@@ -3,4 +3,4 @@ description: 'Debug your GitHub Actions Environment interactively by using SSH o
 author: 'Max Schmitt'
 runs:
   using: 'node12'
-  main: 'src/index.js'
+  main: 'lib/index.js'
